@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="7539e1f8-3e04-4c5b-b8da-b3f48a1ebba2" name="hypemsg" url="http://s31.mydevil.net">
+        <fileTransfer host="s31.mydevil.net" port="21" rootFolder="/domains/msg.hypedev.pl/public_html">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
