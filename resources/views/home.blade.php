@@ -95,6 +95,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div id="form-errors">
+
+                    </div>
                     <div class="alert alert-info">Wyślij zaproszenie.</div>
                     {!! Form::open(['class'=>'send-invitation']) !!}
                     <form class="send-invitation">

@@ -28,7 +28,7 @@ class UserSendInvitationRequest extends FormRequest
     public function rules()
     {
         return [
-            'to'=>'required|email|string|max:30',
+            'email'=>'required|email|string|max:30',
             'message'=>'required|string|max:255',
         ];
     }

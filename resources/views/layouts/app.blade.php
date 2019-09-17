@@ -45,5 +45,6 @@
 <!-- Scripts -->
 
 <script src="{{URL::asset('assets/js/chat.js')}}"></script>
+<script src="{{URL::asset('assets/js/modals.js')}}"></script>
 </body>
 </html>
