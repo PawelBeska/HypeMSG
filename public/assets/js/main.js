@@ -5,7 +5,7 @@
         Started: {
             pageLoadingClose: function() {
                 $(".page-loading").fadeOut(300, function() {
-                    $(this).remove()
+                    $(this).remove();
                 })
             },
             scrolllRun: function(e) {

@@ -42,10 +42,5 @@ class MessagesController extends Controller
         Message::create(['from'=>auth()->id(),'to'=>$input['to'],'message'=>$input['message']]);
         return null;
     }
-    public function send_invitation(UserSendInvitationRequest $request)
-    {
-        $input = $request->all();
-
-    }
 
 }

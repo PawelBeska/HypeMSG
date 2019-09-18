@@ -1,52 +1,7 @@
 $body = $("body");
 $crsf = $('meta[name="csrf-token"]').attr('content');
 
-function down(){
-    var chat_body = $('.layout .content .chat .chat-body');
-    chat_body.scrollTop(chat_body.get(0).scrollHeight, -1).niceScroll({
-        cursorcolor: 'rgba(66, 66, 66, 0.20)',
-        cursorwidth: "4px",
-        cursorborder: '0px'
-    });
-}
-function check() {
-    if($("input#to").val()) {
-        $.ajax({
-            url: "/user/chat/messages",
-            type: 'POST',
-            data: {'id': $("input#to").val(),'_token': $crsf},
-            cache: false,
-            global: false,
-            success: function (data) {
-                $('.messages').html(``).prepend(data.map(Message).join(''));
-                $('.chat-body').attr('style','overflow: hidden')
-            }
-        });
-    }
-}
-setInterval(check, 3000);
-function sendMessage(data)
-{
-    $.ajax({
-        url: "/user/chat",
-        type: 'POST',
-        data: data,
-        cache: false,
-        global: false,
-        success: function (data) {
-            down();
 
-        }
-    });
-}
-$(document).on({
-    ajaxStart: function(e) {
-        $body.addClass("loading");
-    },
-    ajaxStop: function() {
-        $body.removeClass("loading");
-    }
-});
 const Chats = ({id,name,message,avatar}) => `
             <li class="list-group-item" id="${id}">
                                     <figure class="avatar avatar-state-success">
@@ -108,44 +63,107 @@ const Chat = ({id,name,avatar}) => `<div class="chat-header-user" id="${id}">
                             </li>
                         </ul>
                     </div>`;
-//GENEROWANIE CZATÓW
-$.ajax({
-    url: "/user/chats",
-    type: 'GET',
-    data: {'_token':$crsf},
-    success: function (data) {
-        $('ul.list-group').html('').prepend(data.map(Chats).join(''));
-        $('li.list-group-item').click(function(e) {
-            //GENEROWANIE HEADERA KONWERSACJI
-            let id = $(this).attr('id');
-            $("input#to").val(id);
-            $.ajax({
-                url: "/user/chat/header",
-                type: 'POST',
-                data: {'_token':$crsf,"id":id},
-                success: function (data) {
-                    $('.chat-header').html(``).prepend(data.map(Chat).join(''));
-                    $('#close_action').click(function(){
-                        $('.chat').hide();
-                        $('.no-message-container').show();
-                        $('.chat-header').html();
-                    });
-                }
-            });
-            //GENEROWANIE WIADOMOŚCI
-            $.ajax({
-                url: "/user/chat/body",
-                type: 'POST',
-                data: {'_token':$crsf,"id":id},
-                success: function (data) {
-                    $('.messages').html(``).prepend(data.map(Message).join(''));
-                    down();
-                }
-            });
 
-            $('.chat').show();
-            $('.no-message-container').hide();
 
-        });
+$(document).on({
+    ajaxStart: function(e) {
+        $body.addClass("loading");
+    },
+    ajaxStop: function() {
+        $body.removeClass("loading");
     }
 });
+
+function down(){
+    var chat_body = $('.layout .content .chat .chat-body');
+    chat_body.scrollTop(chat_body.get(0).scrollHeight, -1).niceScroll({
+        cursorcolor: 'rgba(66, 66, 66, 0.20)',
+        cursorwidth: "4px",
+        cursorborder: '0px'
+    });
+}
+function check() {
+    if($("input#to").val()) {
+        $.ajax({
+            url: "/user/chats",
+            type: 'GET',
+            cache: false,
+            global: false,
+            data: {'_token': $crsf},
+            success: function (data) {
+                $('ul.list-group').html('').prepend(data.map(Chats).join(''));
+            }
+        });
+        $.ajax({
+            url: "/user/chat/messages",
+            type: 'POST',
+            data: {'id': $("input#to").val(),'_token': $crsf},
+            cache: false,
+            global: false,
+            success: function (data) {
+                $('.messages').html(``).prepend(data.map(Message).join(''));
+                $('.chat-body').attr('style','overflow: hidden')
+            }
+        });
+    }
+}setInterval(check, 3000);
+function sendMessage(data)
+{
+    $.ajax({
+        url: "/user/chat",
+        type: 'POST',
+        data: data,
+        cache: false,
+        global: false,
+        success: function (data) {
+            down();
+
+        }
+    });
+}
+//TODO CLEAR THIS SHIT...
+//GENEROWANIE CZATÓW
+generateChats();
+function generateChats() {
+    $.ajax({
+        url: "/user/chats",
+        type: 'GET',
+        data: {'_token': $crsf},
+        success: function (data) {
+            $('ul.list-group').html('').prepend(data.map(Chats).join(''));
+            $('li.list-group-item').on('click',function (e) {
+                //GENEROWANIE HEADERA KONWERSACJI
+                let id = $(this).attr('id');
+                $("input#to").val(id);
+                $.ajax({
+                    url: "/user/chat/header",
+                    type: 'POST',
+                    data: {'_token': $crsf, "id": id},
+                    success: function (data) {
+                        $('.chat-header').html(``).prepend(data.map(Chat).join(''));
+                        $('#close_action').click(function () {
+                            $('.chat').hide();
+                            $('.no-message-container').show();
+                            $('.chat-header').html();
+                        });
+                    }
+                });
+                //GENEROWANIE WIADOMOŚCI
+                $.ajax({
+                    url: "/user/chat/body",
+                    type: 'POST',
+                    data: {'_token': $crsf, "id": id},
+                    success: function (data) {
+                        $('.messages').html(``).prepend(data.map(Message).join(''));
+                        down();
+                    }
+                });
+
+                $('.chat').show();
+                $('.no-message-container').hide();
+
+            });
+        }
+    });
+}
+

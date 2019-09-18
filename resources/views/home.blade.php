@@ -96,9 +96,8 @@
                 </div>
                 <div class="modal-body">
                     <div id="form-errors">
-
+                        <div class="alert alert-info">Wyślij zaproszenie.</div>
                     </div>
-                    <div class="alert alert-info">Wyślij zaproszenie.</div>
                     {!! Form::open(['class'=>'send-invitation']) !!}
                     <form class="send-invitation">
                         <div class="form-group">
@@ -952,7 +951,7 @@
             <div class="no-message-container">
                 <div class="no-message-text">
                     <i class="fa fa-comments-o"></i>
-                    <p>Select a chat to read messages</p>
+                    <p>Wybierz z kim chcesz rozmawiać!</p>
 
                 </div>
             </div>
