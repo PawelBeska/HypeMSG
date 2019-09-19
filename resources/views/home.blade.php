@@ -62,7 +62,7 @@
                         <div class="call-background" style="background: url(./dist/media/img/call-bg.png)"></div>
                         <div>
                             <figure class="mb-4 avatar avatar-xl">
-                                <img src="{{URL::asset('assets/images/avatar.png')}}" class="rounded-circle">
+                                <img src="{{\Illuminate\Support\Facades\Auth::user()->getAvatar()}}" class="rounded-circle">
                             </figure>
                             <h4 class="text-center">Jennica Kindred calling ...</h4>
                             <div class="action-button">
@@ -293,7 +293,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        <i class="ti-pencil"></i> Profile Edit
+                        <i class="ti-pencil"></i> Edycja profilu
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i class="ti-close"></i>
@@ -316,16 +316,16 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane show active" id="personal" role="tabpanel">
-                            <form>
+                            {!! Form::open(['']) !!}
                                 <div class="form-group">
-                                    <label for="fullname" class="col-form-label">Fullname</label>
+                                    {!! Form::label('name','Nazwa użytkownika',['class'=>'col-form-label']) !!}
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                         <span class="input-group-text">
                                             <i class="ti-user"></i>
                                         </span>
                                         </div>
-                                        <input type="text" class="form-control" id="fullname">
+                                        {!! Form::text('name',null,['class'=>'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -375,7 +375,7 @@
                                         <input type="text" class="form-control" id="website">
                                     </div>
                                 </div>
-                            </form>
+                            {!! Form::close() !!}
                         </div>
                         <div class="tab-pane" id="about" role="tabpanel">
                             <form action="">

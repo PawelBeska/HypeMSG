@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
 class User extends Authenticatable
 {
@@ -45,5 +47,9 @@ class User extends Authenticatable
     public function lastMessage(): HasOne
     {
         return $this->hasOne(Message::class, 'id', 'last_message_id');
+    }
+    public function getAvatar()
+    {
+        return $this->avatar?$this->avatar:URL::asset('assets/images/avatar.png');
     }
 }

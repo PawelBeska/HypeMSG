@@ -17,7 +17,6 @@ class FriendsController extends Controller
 
     public function add(UserSendInvitationRequest $request)
     {
-        #TODO wiadomości => lang
         $this->input = $request->all();
         $this->message = new MessageBag();
         if ($this->user = User::select('id')->where('email', $this->input['email'])->first()) {
@@ -26,11 +25,11 @@ class FriendsController extends Controller
                     DB::transaction(function () {
                         Invitation::newInvitation(Auth::id(), $this->user['id']);
                         Message::newMessage(Auth::id(), $this->user['id'], $this->input['message']);
-                        $this->message->add('success', 'Pomyślnie wysłano zaproszenie');
+                        $this->message->add('success', __('messages.invitation.success'));
                     });
-                } else $this->message->add('error', 'Wysłałeś już zaproszenie do tego użytkownika!');
-            }else $this->message->add('error', 'Nie możesz wysłać zaproszenia do samego siebie!');
-        } else $this->message->add('error', 'Taki użytkownik nie istnieje!');
+                } else $this->message->add('error', __('messages.invitation.error.user.was'));
+            }else $this->message->add('error', __('messages.invitation.error.user.yourSelf'));
+        } else $this->message->add('error', __('messages.invitation.error.user.notExist'));
 
 
         return  $this->message->jsonSerialize();

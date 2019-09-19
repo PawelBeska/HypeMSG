@@ -84,16 +84,7 @@ function down(){
 }
 function check() {
     if($("input#to").val()) {
-        $.ajax({
-            url: "/user/chats",
-            type: 'GET',
-            cache: false,
-            global: false,
-            data: {'_token': $crsf},
-            success: function (data) {
-                $('ul.list-group').html('').prepend(data.map(Chats).join(''));
-            }
-        });
+        generateChats();
         $.ajax({
             url: "/user/chat/messages",
             type: 'POST',
@@ -128,6 +119,8 @@ function generateChats() {
     $.ajax({
         url: "/user/chats",
         type: 'GET',
+        cache: false,
+        global: false,
         data: {'_token': $crsf},
         success: function (data) {
             $('ul.list-group').html('').prepend(data.map(Chats).join(''));
