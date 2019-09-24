@@ -15,7 +15,6 @@ $('form.send-invitation').on('submit', function (e) {
         }
     });
 });
-#programming #laungage #code #time #coding #javascript #skills #job #instacode #instaskills #programmer #php #frontend #backend #codinglife #webprogramming #mysql #js #website #websitedesign #websitedesigner
 function errors(data) {
     $('#form-errors').empty();
     const error = ({alert, message}) => `<div class="alert alert-sm alert-border-left ${alert} alert-dismissable">
